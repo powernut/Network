@@ -1,0 +1,156 @@
+version 6.5.4.0-6.5.4
+virtual-controller-country CN
+virtual-controller-key 30cb56f701c8033c9771d2313b062ff6e99ba1b558cb5aac41
+name Instant-C0:A5:2C
+virtual-controller-ip 192.168.20.100
+terminal-access
+clock timezone none 00 00
+rf-band all
+
+allow-new-aps
+allowed-ap 18:64:72:c0:a5:2c
+allowed-ap 24:de:c6:cb:55:74
+allowed-ap 44:48:c1:c8:5e:cc
+allowed-ap 94:b4:0f:c3:6a:f8
+allowed-ap 00:0b:86:b9:2a:05
+allowed-ap 94:b4:0f:c3:6b:da
+
+
+
+arm
+ wide-bands 5ghz
+ 80mhz-support
+ min-tx-power 18
+ max-tx-power 127
+ band-steering-mode prefer-5ghz
+ air-time-fairness-mode fair-access
+ client-aware
+ scanning
+ client-match
+
+
+syslog-level warn ap-debug
+syslog-level warn network
+syslog-level warn security
+syslog-level warn system
+syslog-level warn user
+syslog-level warn user-debug
+syslog-level warn wireless
+
+
+
+
+
+
+
+mgmt-user admin c5c2bc757f365fa3a84d6295f4c6525b
+
+
+
+wlan access-rule default_wired_port_profile
+ index 0
+ rule any any match any any any permit
+
+wlan access-rule wired-SetMeUp
+ index 1
+ rule masterip 0.0.0.0 match tcp 80 80 permit
+ rule masterip 0.0.0.0 match tcp 4343 4343 permit
+ rule any any match udp 67 68 permit
+ rule any any match udp 53 53 permit
+
+wlan access-rule IAP-LAB
+ index 2
+ rule any any match any any any permit
+
+wlan ssid-profile IAP-LAB
+ enable
+ index 0
+ type employee
+ essid IAP-LAB
+ wpa-passphrase a9bb0fec74d583b357f589257ebe592e0df0d89b4fc4f81c
+ opmode wpa2-psk-aes
+ max-authentication-failures 0
+ vlan 30
+ rf-band all
+ captive-portal disable
+ dtim-period 1
+ broadcast-filter none
+ dmo-channel-utilization-threshold 90
+ local-probe-req-thresh 0
+ max-clients-threshold 64
+
+auth-survivability cache-time-out 24
+
+
+
+wlan external-captive-portal
+ server localhost
+ port 80
+ url "/"
+ auth-text "Authenticated"
+ auto-whitelist-disable
+ https
+
+
+blacklist-time 3600
+auth-failure-blacklist-time 3600
+
+ids rogue-containment
+
+ids
+ wireless-containment tarpit-non-valid-sta
+ infrastructure-detection-level high
+ infrastructure-protection-level high
+
+
+wired-port-profile wired-SetMeUp
+ switchport-mode access
+ allowed-vlan all
+ native-vlan guest
+ no shutdown
+ access-rule-name wired-SetMeUp
+ speed auto
+ duplex auto
+ no poe
+ type guest
+ captive-portal disable
+ no dot1x
+
+wired-port-profile default_wired_port_profile
+ switchport-mode trunk
+ allowed-vlan all
+ native-vlan 1
+ shutdown
+ access-rule-name default_wired_port_profile
+ speed auto
+ duplex full
+ no poe
+ type employee
+ captive-portal disable
+ no dot1x
+
+
+enet0-port-profile default_wired_port_profile
+
+uplink
+ preemption
+ enforce none
+ failover-internet-pkt-lost-cnt 10
+ failover-internet-pkt-send-freq 30
+ failover-vpn-timeout 180
+
+
+airgroup
+ disable
+
+airgroupservice airplay
+ disable
+ description AirPlay
+
+airgroupservice airprint
+ disable
+ description AirPrint
+
+
+
+
