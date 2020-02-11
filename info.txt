@@ -239,6 +239,23 @@ Are you sure you want to erase the configuration? (y/n):
 24:de:c6:cb:55:74# copy tftp 192.168.20.2 backup0129.cfg system config
 please reboot the AP to apply the new configuration
 
+AP108#
+AP108# copy tftp 192.168.20.2 backup0129.cfg system config
+tftp: timeout
+tftp: timeout
+tftp: timeout
+tftp: timeout
+tftp: timeout
+tftp: last timeout
+
+Copy failed
+
+Download fail
+AP108# copy tftp 192.168.20.2 backup0129.cfg system config
+please reboot the AP to apply the new configuration
+AP108#
+
+
 def handle_mds_continue(net_connect, cmd):
     net_connect.remote_conn.sendall(cmd)
     time.sleep(1)
